@@ -42,6 +42,8 @@
 		F5ACEB981B9ECFA700B5D5D8 /* PLMyPlanListLineLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F5ACEB8F1B9ECFA700B5D5D8 /* PLMyPlanListLineLayout.m */; };
 		F5ACEB9F1B9ED14F00B5D5D8 /* PLCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F5ACEB9C1B9ED14F00B5D5D8 /* PLCollectionViewCell.m */; };
 		F5ACEBA01B9ED14F00B5D5D8 /* PLCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = F5ACEB9D1B9ED14F00B5D5D8 /* PLCollectionView.m */; };
+		F5B057E51B9FD52E00867049 /* PLDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5B057E41B9FD52E00867049 /* PLDetailController.m */; };
+		F5B057E91B9FD63500867049 /* UIView+Positioning.m in Sources */ = {isa = PBXBuildFile; fileRef = F5B057E81B9FD63500867049 /* UIView+Positioning.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +104,11 @@
 		F5ACEB9C1B9ED14F00B5D5D8 /* PLCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLCollectionViewCell.m; sourceTree = "<group>"; };
 		F5ACEB9D1B9ED14F00B5D5D8 /* PLCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLCollectionView.m; sourceTree = "<group>"; };
 		F5ACEB9E1B9ED14F00B5D5D8 /* PLCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCollectionViewCell.h; sourceTree = "<group>"; };
+		F5B057E31B9FD52E00867049 /* PLDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLDetailController.h; sourceTree = "<group>"; };
+		F5B057E41B9FD52E00867049 /* PLDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLDetailController.m; sourceTree = "<group>"; };
+		F5B057E71B9FD63500867049 /* UIView+Positioning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Positioning.h"; sourceTree = "<group>"; };
+		F5B057E81B9FD63500867049 /* UIView+Positioning.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Positioning.m"; sourceTree = "<group>"; };
+		F5B057EA1B9FDD4700867049 /* YTHorizontalCollectionLayout.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTHorizontalCollectionLayout.pch; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,8 +150,10 @@
 		F5ACEB191B9ECDCD00B5D5D8 /* YTHorizontalCollectionLayout */ = {
 			isa = PBXGroup;
 			children = (
+				F5B057E61B9FD62900867049 /* Category */,
 				F5ACEB401B9ECEDA00B5D5D8 /* Resource */,
 				F5ACEB811B9ECFA700B5D5D8 /* MyPlanList */,
+				F5B057E11B9FD49000867049 /* PLDetailVC */,
 				F5ACEB1E1B9ECDCD00B5D5D8 /* AppDelegate.h */,
 				F5ACEB1F1B9ECDCD00B5D5D8 /* AppDelegate.m */,
 				F5ACEB211B9ECDCD00B5D5D8 /* ViewController.h */,
@@ -161,6 +170,7 @@
 			children = (
 				F5ACEB1B1B9ECDCD00B5D5D8 /* Info.plist */,
 				F5ACEB1C1B9ECDCD00B5D5D8 /* main.m */,
+				F5B057EA1B9FDD4700867049 /* YTHorizontalCollectionLayout.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -245,6 +255,32 @@
 				F5ACEB8F1B9ECFA700B5D5D8 /* PLMyPlanListLineLayout.m */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		F5B057E11B9FD49000867049 /* PLDetailVC */ = {
+			isa = PBXGroup;
+			children = (
+				F5B057E21B9FD50B00867049 /* Controller */,
+			);
+			path = PLDetailVC;
+			sourceTree = "<group>";
+		};
+		F5B057E21B9FD50B00867049 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				F5B057E31B9FD52E00867049 /* PLDetailController.h */,
+				F5B057E41B9FD52E00867049 /* PLDetailController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		F5B057E61B9FD62900867049 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				F5B057E71B9FD63500867049 /* UIView+Positioning.h */,
+				F5B057E81B9FD63500867049 /* UIView+Positioning.m */,
+			);
+			path = Category;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -374,10 +410,12 @@
 				F5ACEB941B9ECFA700B5D5D8 /* PLMyPlanListVC.m in Sources */,
 				F5ACEB981B9ECFA700B5D5D8 /* PLMyPlanListLineLayout.m in Sources */,
 				F5ACEB9F1B9ED14F00B5D5D8 /* PLCollectionViewCell.m in Sources */,
+				F5B057E91B9FD63500867049 /* UIView+Positioning.m in Sources */,
 				F5ACEB201B9ECDCD00B5D5D8 /* AppDelegate.m in Sources */,
 				F5ACEBA01B9ED14F00B5D5D8 /* PLCollectionView.m in Sources */,
 				F5ACEB971B9ECFA700B5D5D8 /* PLMyPlanListCollectionCell.m in Sources */,
 				F5ACEB1D1B9ECDCD00B5D5D8 /* main.m in Sources */,
+				F5B057E51B9FD52E00867049 /* PLDetailController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -497,6 +535,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = YTHorizontalCollectionLayout/YTHorizontalCollectionLayout.pch;
 				INFOPLIST_FILE = YTHorizontalCollectionLayout/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -507,6 +547,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = YTHorizontalCollectionLayout/YTHorizontalCollectionLayout.pch;
 				INFOPLIST_FILE = YTHorizontalCollectionLayout/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -566,6 +608,7 @@
 				F5ACEB3C1B9ECDCD00B5D5D8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F5ACEB3D1B9ECDCD00B5D5D8 /* Build configuration list for PBXNativeTarget "YTHorizontalCollectionLayoutTests" */ = {
 			isa = XCConfigurationList;
@@ -574,6 +617,7 @@
 				F5ACEB3F1B9ECDCD00B5D5D8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

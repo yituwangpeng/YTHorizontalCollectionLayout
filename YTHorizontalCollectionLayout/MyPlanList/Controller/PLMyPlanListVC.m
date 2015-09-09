@@ -13,7 +13,7 @@
 #import "PLMyPlanListCollectionCell.h"
 #import "PLMyPlanListLineLayout.h"
 #import "AppDelegate.h"
-
+#import "PLDetailController.h"
 
 #define kDeletePlanAlertTag 100
 #define ANONYMOUS_PLAN_ALERT_TAG 29
@@ -139,6 +139,44 @@ UICollectionViewDataSource>
     
     targetContentOffset->x = currentOffset;
     [scrollView setContentOffset:CGPointMake(newTargetOffset, 0) animated:YES];
+}
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UIImage *bookImage = self.dataArray[indexPath.row];
+    //展示动画的UIImageView
+    UIImageView *showView = [[UIImageView alloc] initWithImage:bookImage];
+    showView.contentMode = UIViewContentModeScaleAspectFill;
+    showView.layer.masksToBounds = YES;
+    //坐标系转换
+    UICollectionViewCell *item = [_collectionView cellForItemAtIndexPath:indexPath];
+    CGRect _itemPosition = [_collectionView convertRect:item.frame toView:MAIN_WINDOW];
+    showView.frame = _itemPosition;
+    //设置tag方便以后取出
+    showView.tag = ANIMATE_SHOW_VIEW_TAG;
+    showView.backgroundColor = [UIColor clearColor];
+    [MAIN_WINDOW addSubview:showView];
+    
+    PLDetailController *detailVC = [[PLDetailController alloc] init];
+    detailVC.originRect = _itemPosition;
+    [UIView animateWithDuration:FRAME_ANIMATION_TIME animations:^{
+        //将UIImageView放大为全屏
+        showView.frame = [MAIN_WINDOW bounds];
+    } completion:^(BOOL finished) {
+        if (finished) {
+            //present 新视图
+            [self presentViewController:detailVC animated:NO completion:nil];
+            //移除展示动画的UIImageView
+            [UIView animateWithDuration:ORIGIN_ANIMATION_TIME animations:^{
+                UIImageView *showView = (UIImageView *)[MAIN_WINDOW viewWithTag:ANIMATE_SHOW_VIEW_TAG];
+                showView.x = - showView.width;
+                
+            } completion:^(BOOL finished) {
+                if (finished){
+                    item.userInteractionEnabled = YES;
+                }
+            }];
+        }
+    }];
 }
 
 #pragma mark - getters and setters

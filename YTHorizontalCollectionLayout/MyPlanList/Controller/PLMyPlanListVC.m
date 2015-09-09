@@ -142,13 +142,16 @@ UICollectionViewDataSource>
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    UICollectionViewCell *item = [_collectionView cellForItemAtIndexPath:indexPath];
+    [MAIN_WINDOW setUserInteractionEnabled:NO];
+    
     UIImage *bookImage = self.dataArray[indexPath.row];
     //展示动画的UIImageView
     UIImageView *showView = [[UIImageView alloc] initWithImage:bookImage];
     showView.contentMode = UIViewContentModeScaleAspectFill;
     showView.layer.masksToBounds = YES;
     //坐标系转换
-    UICollectionViewCell *item = [_collectionView cellForItemAtIndexPath:indexPath];
     CGRect _itemPosition = [_collectionView convertRect:item.frame toView:MAIN_WINDOW];
     showView.frame = _itemPosition;
     //设置tag方便以后取出
@@ -158,6 +161,7 @@ UICollectionViewDataSource>
     
     PLDetailController *detailVC = [[PLDetailController alloc] init];
     detailVC.originRect = _itemPosition;
+    
     [UIView animateWithDuration:FRAME_ANIMATION_TIME animations:^{
         //将UIImageView放大为全屏
         showView.frame = [MAIN_WINDOW bounds];
@@ -172,7 +176,7 @@ UICollectionViewDataSource>
                 
             } completion:^(BOOL finished) {
                 if (finished){
-                    item.userInteractionEnabled = YES;
+                    [MAIN_WINDOW setUserInteractionEnabled:YES];
                 }
             }];
         }

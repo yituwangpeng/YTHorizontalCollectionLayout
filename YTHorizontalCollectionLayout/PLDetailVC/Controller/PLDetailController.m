@@ -32,6 +32,7 @@
 #pragma mark - event response
 - (void)backParentVC:(id)sender
 {
+    [MAIN_WINDOW setUserInteractionEnabled:NO];
     UIImageView *showView = (UIImageView *)[MAIN_WINDOW viewWithTag:ANIMATE_SHOW_VIEW_TAG];
     //移除展示动画的UIImageView
     [UIView animateWithDuration:ORIGIN_ANIMATION_TIME animations:^{
@@ -46,7 +47,7 @@
             } completion:^(BOOL finished) {
                 if (finished) {
                     [showView removeFromSuperview];
-                    
+                    [MAIN_WINDOW setUserInteractionEnabled:YES];
                 }
             }];
         }

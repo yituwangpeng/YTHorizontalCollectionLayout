@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PLCollectionViewCell : UICollectionViewCell
+@interface PLCollectionViewCell : UICollectionViewCell<UIGestureRecognizerDelegate>
+
+@property (assign, nonatomic) CGFloat initialTouchPositionY;
+
 /**
  *  点击高亮效果的视图
  */

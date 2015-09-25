@@ -36,6 +36,9 @@
 //        swipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionUp | UISwipeGestureRecognizerDirectionDown;
 //        [swipeGestureRecognizer requireGestureRecognizerToFail:]
         [self addGestureRecognizer:swipeGestureRecognizer];
+        
+        self.initialTouchPositionY = self.frame.origin.y;
+        NSLog(@"cell frame = %@",NSStringFromCGRect(self.frame));
     }
     return self;
 }
@@ -50,33 +53,66 @@
      CGPoint velocity = [recognizer velocityInView:self.contentView];
     NSLog(@"111111111UIGestureRecognizerStateChanged  %@",NSStringFromCGPoint(translationPoint));
     NSLog(@"移动    %@",NSStringFromCGPoint(velocity));
-    if ([recognizer isKindOfClass:[UIPanGestureRecognizer class]] && velocity.y > 0)
+    if ([recognizer isKindOfClass:[UIPanGestureRecognizer class]])
     {
         CGPoint location = [recognizer locationInView:self];
         
         if (recognizer.state == UIGestureRecognizerStateBegan) {
-             self.initialTouchPositionY = currentTouchPositionY;
+//             self.initialTouchPositionY = currentTouchPositionY;
             
         }
         
         if (recognizer.state == UIGestureRecognizerStateChanged) {
-            NSLog(@"UIGestureRecognizerStateChanged  %@",NSStringFromCGPoint(location));
-            
-            CGPoint translation = [recognizer translationInView:self.contentView];
-            self.center = CGPointMake(recognizer.view.center.x + translation.x,
-                                                 recognizer.view.center.y + translation.y);
-            [recognizer setTranslation:CGPointZero inView:self.contentView];
+//            NSLog(@"UIGestureRecognizerStateChanged  %@",NSStringFromCGPoint(location));
+//            
+//            CGPoint translation = [recognizer translationInView:self.contentView];
+//            self.center = CGPointMake(recognizer.view.center.x + translation.x,
+//                                                 recognizer.view.center.y + translation.y);
+//            [recognizer setTranslation:CGPointZero inView:self.contentView];
 
             
         }
         
         if(recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateCancelled) {
-            
+            NSLog(@"结束时的速率    %@ -------%@",NSStringFromCGPoint(velocity),NSStringFromCGRect(self.frame));
+            if(velocity.y < -2000){
+                [UIView animateWithDuration:0.5f animations:^{
+                    self.centerY  = -1000;
+                } completion:^(BOOL finished) {
+                    if (_panCellToDeleteBlock) {
+                        _panCellToDeleteBlock(_cellIndexPath);
+                    }
+                }];
+
+            }else{
+                if (self.convertY < -(self.height - 20)) {
+                    [UIView animateWithDuration:0.5f animations:^{
+                        self.centerY  = - 1000;
+                    } completion:^(BOOL finished) {
+                        if (_panCellToDeleteBlock) {
+                            _panCellToDeleteBlock(_cellIndexPath);
+                        }
+                    }];
+
+                }else{
+                    [UIView animateWithDuration:0.2f animations:^{
+                        self.centerY  = _initialTouchPositionY + self.height/2;
+                    } completion:^(BOOL finished) {
+                        
+                    }];
+
+                }
+ 
+            }
         }
 
     }
-    
+    CGPoint translation = [recognizer translationInView:self.contentView];
 
+    self.centerY  = recognizer.view.center.y + translation.y;
+    self.convertY = [self convertRect:self.frame toView:MAIN_WINDOW].origin.y;
+    NSLog(@"convertY = %f",self.convertY);
+    [recognizer setTranslation:CGPointZero inView:self.contentView];
 }
 #pragma mark * UIPanGestureRecognizer delegate
 
@@ -111,6 +147,6 @@
  */
 - (void)reset
 {
-    
+     self.centerY  = _initialTouchPositionY + self.height/2;
 }
 @end

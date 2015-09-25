@@ -117,27 +117,27 @@
     return YES;
 }
 //当前item放大
--(NSArray*)layoutAttributesForElementsInRect:(CGRect)rect
-{
-    NSArray* array = [super layoutAttributesForElementsInRect:rect];
-    CGRect visibleRect;
-    visibleRect.origin = self.collectionView.contentOffset;
-    visibleRect.size = self.collectionView.bounds.size;
-    
-    for (UICollectionViewLayoutAttributes* attributes in array) {
-        if (CGRectIntersectsRect(attributes.frame, rect)) {
-            CGFloat distance = CGRectGetMidX(visibleRect) - attributes.center.x;
-            CGFloat normalizedDistance = distance / ACTIVE_DISTANCE;
-            if (ABS(distance) < ACTIVE_DISTANCE) {
-                CGFloat zoom = 1 + ZOOM_FACTOR*(1 - ABS(normalizedDistance));
-                attributes.transform3D = CATransform3DMakeScale(zoom, zoom, 1.0);
-                NSLog(@"zoom === %f",zoom);
-                attributes.zIndex = 1;
-            }
-        }
-    }
-    return array;
-}
+//-(NSArray*)layoutAttributesForElementsInRect:(CGRect)rect
+//{
+//    NSArray* array = [super layoutAttributesForElementsInRect:rect];
+//    CGRect visibleRect;
+//    visibleRect.origin = self.collectionView.contentOffset;
+//    visibleRect.size = self.collectionView.bounds.size;
+//    
+//    for (UICollectionViewLayoutAttributes* attributes in array) {
+//        if (CGRectIntersectsRect(attributes.frame, rect)) {
+//            CGFloat distance = CGRectGetMidX(visibleRect) - attributes.center.x;
+//            CGFloat normalizedDistance = distance / ACTIVE_DISTANCE;
+//            if (ABS(distance) < ACTIVE_DISTANCE) {
+//                CGFloat zoom = 1 + ZOOM_FACTOR*(1 - ABS(normalizedDistance));
+//                attributes.transform3D = CATransform3DMakeScale(zoom, zoom, 1.0);
+//                NSLog(@"zoom === %f",zoom);
+//                attributes.zIndex = 1;
+//            }
+//        }
+//    }
+//    return array;
+//}
 //-(CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity
 //{
 //    CGFloat yOffset = MAXFLOAT;

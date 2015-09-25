@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+typedef void (^PanCellToDeleteBlock)(NSIndexPath *cellIndexPath);
+
 
 @interface PLCollectionViewCell : UICollectionViewCell<UIGestureRecognizerDelegate>
 
 @property (assign, nonatomic) CGFloat initialTouchPositionY;
-
+@property (strong, nonatomic) NSIndexPath *cellIndexPath;
+@property (assign, nonatomic) CGFloat convertY;
+@property (copy, nonatomic) PanCellToDeleteBlock panCellToDeleteBlock;
 /**
  *  点击高亮效果的视图
  */

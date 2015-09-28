@@ -9,6 +9,8 @@
 #import "PLCollectionViewCell.h"
 #import "MyPlanListLayoutParam.h"
 
+#define CELL_ANIATION_DURATION 0.2f
+#define CELL_PAN_LIMIT_VELOCITY (-1000) //-1000可以自己决定，值越小，表明滑动的越快
 @implementation PLCollectionViewCell
 - (id)initWithFrame:(CGRect)frame
 {
@@ -33,99 +35,78 @@
 
         UIPanGestureRecognizer *swipeGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipes:)];
         swipeGestureRecognizer.delegate = self;
-//        swipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionUp | UISwipeGestureRecognizerDirectionDown;
-//        [swipeGestureRecognizer requireGestureRecognizerToFail:]
         [self addGestureRecognizer:swipeGestureRecognizer];
         
         self.initialTouchPositionY = self.frame.origin.y;
-        NSLog(@"cell frame = %@",NSStringFromCGRect(self.frame));
     }
     return self;
 }
+#pragma mark - event response
 - (void)handleSwipes:(UIPanGestureRecognizer *)recognizer
 {
-    CGRect originFrame = self.frame;
     
-    CGPoint currentTouchPoint = [recognizer locationInView:self.contentView];
-    CGFloat currentTouchPositionY = currentTouchPoint.y;
-    
-    CGPoint translationPoint = [recognizer translationInView:self.contentView];
-     CGPoint velocity = [recognizer velocityInView:self.contentView];
-    NSLog(@"111111111UIGestureRecognizerStateChanged  %@",NSStringFromCGPoint(translationPoint));
-    NSLog(@"移动    %@",NSStringFromCGPoint(velocity));
+    CGPoint velocity = [recognizer velocityInView:self.contentView];
     if ([recognizer isKindOfClass:[UIPanGestureRecognizer class]])
     {
-        CGPoint location = [recognizer locationInView:self];
         
         if (recognizer.state == UIGestureRecognizerStateBegan) {
-//             self.initialTouchPositionY = currentTouchPositionY;
             
         }
         
         if (recognizer.state == UIGestureRecognizerStateChanged) {
-//            NSLog(@"UIGestureRecognizerStateChanged  %@",NSStringFromCGPoint(location));
-//            
-//            CGPoint translation = [recognizer translationInView:self.contentView];
-//            self.center = CGPointMake(recognizer.view.center.x + translation.x,
-//                                                 recognizer.view.center.y + translation.y);
-//            [recognizer setTranslation:CGPointZero inView:self.contentView];
-
-            
+            CGPoint translation = [recognizer translationInView:self.contentView];
+            self.centerY  = recognizer.view.center.y + translation.y;
+            [recognizer setTranslation:CGPointZero inView:self.contentView];
+            self.convertWindowY = [self.superview convertRect:self.frame toView:MAIN_WINDOW].origin.y;
         }
         
         if(recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateCancelled) {
-            NSLog(@"结束时的速率    %@ -------%@",NSStringFromCGPoint(velocity),NSStringFromCGRect(self.frame));
-            if(velocity.y < -2000){
-                [UIView animateWithDuration:0.5f animations:^{
-                    self.centerY  = -1000;
+            //根据拖动速率和拖动结束后卡片的位置判断是否移除cell
+            if(velocity.y < CELL_PAN_LIMIT_VELOCITY){
+                [UIView animateWithDuration:CELL_ANIATION_DURATION animations:^{
+                    self.centerY  = -self.height;
                 } completion:^(BOOL finished) {
                     if (_panCellToDeleteBlock) {
                         _panCellToDeleteBlock(_cellIndexPath);
                     }
                 }];
-
+                
             }else{
-                if (self.convertY < -(self.height - 20)) {
-                    [UIView animateWithDuration:0.5f animations:^{
-                        self.centerY  = - 1000;
+                if (self.convertWindowY < -self.height/2) {
+                    [UIView animateWithDuration:CELL_ANIATION_DURATION animations:^{
+                        self.centerY  = -self.height;
                     } completion:^(BOOL finished) {
                         if (_panCellToDeleteBlock) {
                             _panCellToDeleteBlock(_cellIndexPath);
                         }
                     }];
-
+                    
                 }else{
-                    [UIView animateWithDuration:0.2f animations:^{
+                    [UIView animateWithDuration:CELL_ANIATION_DURATION animations:^{
                         self.centerY  = _initialTouchPositionY + self.height/2;
                     } completion:^(BOOL finished) {
                         
                     }];
-
+                    
                 }
- 
+                
             }
         }
-
+        
     }
-    CGPoint translation = [recognizer translationInView:self.contentView];
-
-    self.centerY  = recognizer.view.center.y + translation.y;
-    self.convertY = [self convertRect:self.frame toView:MAIN_WINDOW].origin.y;
-    NSLog(@"convertY = %f",self.convertY);
-    [recognizer setTranslation:CGPointZero inView:self.contentView];
 }
-#pragma mark * UIPanGestureRecognizer delegate
+#pragma mark - UIPanGestureRecognizer delegate
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
-        if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
-            CGPoint translation = [(UIPanGestureRecognizer *)gestureRecognizer translationInView:self];
-            return fabs(translation.y) > fabs(translation.x);
-        }
-
+    if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+        CGPoint translation = [(UIPanGestureRecognizer *)gestureRecognizer translationInView:self];
+        return fabs(translation.y) > fabs(translation.x);
+    }
+    
     return NO;
 }
-
+#pragma mark - superclass methods subclass overwrite
 - (void)configDataWithModel:(id)model
 {
     //subclass overwrite

@@ -108,13 +108,10 @@ UICollectionViewDataSource>
     PLCollectionViewCell *cell = nil;
     UIImage *image = nil;
     image = self.dataArray[indexPath.row];
-    NSLog(@"indexPath ======== %ld",indexPath.row);
-    NSLog(@"哈哈哈哈哈 %@",self.dataArray);
     cell = (PLMyPlanListCollectionCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kMyPlanListCollectionCell forIndexPath:indexPath];
     cell.cellIndexPath = indexPath;
     __weak PLMyPlanListVC *weakSelf = self;
     cell.panCellToDeleteBlock = ^(NSIndexPath *cellIndexPath){
-        NSLog(@"indexPath11 ======== %ld",indexPath.row);
         [weakSelf.dataArray removeObjectAtIndex:cellIndexPath.row];
         [weakSelf.collectionView reloadData];
     };

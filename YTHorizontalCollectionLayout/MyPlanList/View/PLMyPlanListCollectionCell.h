@@ -13,7 +13,6 @@ typedef void (^PLMyPlanListCollectionCellDeleteBlock)(NSIndexPath *aIndexPath);
 @interface PLMyPlanListCollectionCell : PLCollectionViewCell
 @property (nonatomic, copy) PLMyPlanListCollectionCellShareBlock sharePlanBlock;
 @property (nonatomic, copy) PLMyPlanListCollectionCellDeleteBlock deletePlanBlock;
-@property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, strong) UIImageView *imageView;
 
 @end

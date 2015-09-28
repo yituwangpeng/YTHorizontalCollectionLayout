@@ -14,8 +14,8 @@ typedef void (^PanCellToDeleteBlock)(NSIndexPath *cellIndexPath);
 
 @property (assign, nonatomic) CGFloat initialTouchPositionY;
 @property (strong, nonatomic) NSIndexPath *cellIndexPath;
-@property (assign, nonatomic) CGFloat convertY;
-@property (copy, nonatomic) PanCellToDeleteBlock panCellToDeleteBlock;
+@property (assign, nonatomic) CGFloat convertWindowY;
+@property (copy , nonatomic) PanCellToDeleteBlock panCellToDeleteBlock;
 /**
  *  点击高亮效果的视图
  */

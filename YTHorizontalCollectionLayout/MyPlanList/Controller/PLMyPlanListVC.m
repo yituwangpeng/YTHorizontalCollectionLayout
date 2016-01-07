@@ -49,6 +49,8 @@ UICollectionViewDataSource>
     for (int i = 1; i < 9; i ++) {
         [self.dataArray addObject:[UIImage imageNamed:[NSString stringWithFormat:@"%d.jpeg",i]]];
     }
+    
+    //哈哈哈哈哈哈哈哈哈哈
 }
 
 
